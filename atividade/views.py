@@ -36,7 +36,7 @@ def calcular(request):
             explicacao = f"Multiplicação de {numero1} e {numero2}"
         elif operacao == 'divisao':
             if numero2 == 0:
-                return render(request, 'atividade/erro.html', {
+                return render(request, 'resultado.html', {
                     'mensagem': "Divisão por zero não é permitida."
                 })
             resultado = numero1 / numero2
@@ -45,7 +45,7 @@ def calcular(request):
             return HttpResponse("Operação inválida.")
 
         # Renderizando o resultado
-        return render(request, 'atividade/resultado.html', {
+        return render(request, 'resultado.html', {
             'explicacao': explicacao,
             'resultado': resultado
         })
