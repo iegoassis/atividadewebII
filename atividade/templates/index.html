@@ -1,8 +1,4 @@
-from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
-def index(request):
-  msg = """
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,6 +26,4 @@ def index(request):
         <button type="submit">Calcular</button>
     </form>
 </body>
-</html>   
-  """
-  return HttpResponse(msg)
+</html>

@@ -1,6 +1,6 @@
 from django.http import HttpResponse
 from django.views.decorators.csrf import csrf_exempt
-
+def calcular(request):
 @csrf_exempt
 def calcular(request):
   if request.method == 'POST':
@@ -57,7 +57,4 @@ def calcular(request):
         <a href="/index/">Voltar</a>
     </body>
     </html>
-    """
-    return HttpResponse(msg)
-  else:
-    return HttpResponse("Método inválido.")
+
