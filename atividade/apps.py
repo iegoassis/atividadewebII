@@ -7,4 +7,5 @@ class AtividadeConfig(AppConfig):
 
 INSTALLED_APPS = [
   'hello',
-] 
+  'atividade',
+]
