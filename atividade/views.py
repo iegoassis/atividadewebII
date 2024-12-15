@@ -1,8 +1,8 @@
 from django.http import HttpResponse
-from django.views.decorators.csrf import csrf_exempt
 from django.shortcuts import render
+from django.views.decorators.csrf import csrf_exempt
 
-# Funções de visualização para as páginas estáticas
+# Páginas
 def home(request):
     return render(request, 'atividade/home.html')
 
@@ -15,7 +15,7 @@ def autor(request):
 def calcular_view(request):
     return render(request, 'atividade/calcular.html')
 
-# Função para cálculo com CSRF
+# Função com CSRF para cálculo
 @csrf_exempt
 def calcular(request):
     if request.method == 'POST':
@@ -36,48 +36,17 @@ def calcular(request):
             explicacao = f"Multiplicação de {numero1} e {numero2}"
         elif operacao == 'divisao':
             if numero2 == 0:
-                # Tratando divisão por zero
-                msg = """
-                <!DOCTYPE html>
-                <html lang="en">
-                <head>
-                    <meta charset="UTF-8">
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                    <title>Erro</title>
-                </head>
-                <body>
-                    <h1>Erro</h1>
-                    <p>Divisão por zero não é permitida. Tente novamente.</p>
-                    <a href="/index/">Voltar</a>
-                </body>
-                </html>
-                """
-                return HttpResponse(msg)
+                return render(request, 'atividade/erro.html', {
+                    'mensagem': "Divisão por zero não é permitida."
+                })
             resultado = numero1 / numero2
             explicacao = f"Divisão de {numero1} por {numero2}"
         else:
-            # Operação inválida
             return HttpResponse("Operação inválida.")
 
-        # Montando a resposta HTML
-        msg = f"""
-        <!DOCTYPE html>
-        <html lang="en">
-        <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Resultado</title>
-        </head>
-        <body>
-            <h1>Resultado do Cálculo</h1>
-            <p>Você realizou a seguinte operação:</p>
-            <p>{explicacao}</p>
-            <p><strong>Resultado:</strong> {resultado}</p>
-            <a href="/index/">Voltar</a>
-        </body>
-        </html>
-        """
-        return HttpResponse(msg)
-    else:
-        # Caso não seja uma requisição POST
-        return HttpResponse("Método HTTP não suportado.")
+        # Renderizando o resultado
+        return render(request, 'atividade/resultado.html', {
+            'explicacao': explicacao,
+            'resultado': resultado
+        })
+    return HttpResponse("Método HTTP não suportado.")
