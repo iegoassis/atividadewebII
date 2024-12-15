@@ -4,16 +4,16 @@ from django.views.decorators.csrf import csrf_exempt
 
 # Páginas
 def home(request):
-    return render(request, 'atividade/home.html')
+    return render(request, 'home.html')
 
 def index(request):
-    return render(request, 'atividade/index.html')
+    return render(request, 'index.html')
 
 def autor(request):
-    return render(request, 'atividade/autor.html')
+    return render(request, 'autor.html')
 
 def calcular_view(request):
-    return render(request, 'atividade/calcular.html')
+    return render(request, 'calcular.html')
 
 # Função com CSRF para cálculo
 @csrf_exempt
