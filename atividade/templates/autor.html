@@ -1,0 +1,19 @@
+def autor(request):
+  msg = """
+  <!DOCTYPE html>
+  <html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Autor</title>
+  </head>
+  <body>
+      <h1>Sobre o Autor</h1>
+      <p>Iego Assis da Silva</p>
+      <p>Formado em Licenciatura em Matemática, pós-graduado em Metodologia do Ensino de Matemática, Gestão Escolar e Coordenação Pedagógica</p>
+         <li>Técnico em Informática para Internet</li>
+       <a href="/home/">início</a>
+  </body>
+  </html>
+"""
+  return HttpResponse(msg)

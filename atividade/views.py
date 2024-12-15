@@ -1,22 +1,23 @@
+from unittest import removeHandler
 from django.http import HttpResponse
-
-# Create your views here.
+from django.views.decorators.csrf import csrf_exempt
+from atividade import views
+from atividade import models
+from django.shortcuts import render
 
 
 def home(request):
-  msg = """
-  <!DOCTYPE html>
-  <html lang="pt-br">
-    <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Hello World</title>
-    </head>
-    <body>
-      <h1>Seja bem vindo a atividade</h1>
-      <p>Este é um exemplo de atividade</p>
-    </body>
-    </html>
+    return render (request, 'atividade/home.html')
+
+def index(request):
+    return render (request, 'atividade/index.html')
     
-  """
-  return HttpResponse(msg)
+def calcular(request):
+    return render (request, 'atividade/calcular.html')
+
+def calcular (request):
+    return render (request, 'atividade/calcular.html')
+    
+def autor(request):
+    return render (request, 'atividade/autor.html')
+
