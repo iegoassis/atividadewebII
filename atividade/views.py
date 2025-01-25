@@ -12,6 +12,9 @@ def index(request):
 def autor(request):
     return render(request, 'autor.html')
 
+def login(request):
+    return render(request, 'login.html')
+
 def calcular_view(request):
     return render(request, 'calcular.html')
 
