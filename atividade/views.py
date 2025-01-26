@@ -1,6 +1,10 @@
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib import messages
+from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 # Páginas
 def home(request):
@@ -11,9 +15,6 @@ def index(request):
 
 def autor(request):
     return render(request, 'autor.html')
-
-def login(request):
-    return render(request, 'login.html')
 
 def calcular_view(request):
     return render(request, 'calcular.html')
@@ -52,4 +53,57 @@ def calcular(request):
             'explicacao': explicacao,
             'resultado': resultado
         })
+
     return HttpResponse("Método HTTP não suportado.")
+
+# Registro de usuário
+def registro(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        email = request.POST['email']
+        password = request.POST['password']
+
+        # Verificar se o nome de usuário já existe
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Nome de usuário já existe.")
+            return redirect('registro')
+
+        # Criar o usuário
+        user = User.objects.create_user(username=username, email=email, password=password)
+        user.save()
+
+        # Exibir mensagem de sucesso
+        messages.success(request, "Cadastro realizado com sucesso! Faça login.")
+        return redirect('login')
+
+    # Renderizar a página de registro
+    return render(request, '/registro.html')
+
+# Login de usuário
+def fazer_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        # Autenticar o usuário
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # Fazer login
+            login(request, user)
+            messages.success(request, "Login realizado com sucesso!")
+            return redirect('home')
+        else:
+            # Exibir mensagem de erro
+            messages.error(request, "Credenciais inválidas.")
+            return redirect('login')
+
+    # Renderizar a página de login
+    return render(request, 'login.html')
+
+# Logout de usuário
+def fazer_logout(request):
+    auth_logout(request)
+    request.session.flush()
+    messages.success(request, "Você saiu da conta.")
+    return redirect('login')
