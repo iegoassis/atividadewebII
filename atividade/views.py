@@ -81,7 +81,7 @@ def fazer_login(request):
             auth_login(request, user)
             next_url = request.POST.get('next', 'home')
             messages.success(request, "Login realizado com sucesso!")
-            return redirect(next_url)
+            return redirect('calcular_view')
         else:
             messages.error(request, "Credenciais inválidas.")
 
