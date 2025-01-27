@@ -13,22 +13,22 @@ def home(request):
 def index(request):
     return render(request, 'index.html')
 
+@login_required
 def autor(request):
     return render(request, 'autor.html')
 
+@login_required
 def calcular_view(request):
     return render(request, 'calcular.html')
 
-# Função com CSRF para cálculo
+@login_required
 @csrf_exempt
 def calcular(request):
     if request.method == 'POST':
-        # Obtendo os dados do formulário
         numero1 = float(request.POST.get('numero1', 0))
         numero2 = float(request.POST.get('numero2', 0))
         operacao = request.POST.get('operacao')
 
-        # Verificando a operação e calculando o resultado
         if operacao == 'soma':
             resultado = numero1 + numero2
             explicacao = f"Soma de {numero1} e {numero2}"
@@ -48,7 +48,6 @@ def calcular(request):
         else:
             return HttpResponse("Operação inválida.")
 
-        # Renderizando o resultado
         return render(request, 'resultado.html', {
             'explicacao': explicacao,
             'resultado': resultado
@@ -56,52 +55,38 @@ def calcular(request):
 
     return HttpResponse("Método HTTP não suportado.")
 
-# Registro de usuário
 def registro(request):
     if request.method == 'POST':
         username = request.POST['username']
-        email = request.POST['email']
         password = request.POST['password']
 
-        # Verificar se o nome de usuário já existe
-        if User.objects.filter(username=username).exists():
-            messages.error(request, "Nome de usuário já existe.")
+        try:
+            user = User.objects.create_user(username=username, password=password)
+            user.save()
+            messages.success(request, "Cadastro realizado com sucesso! Você já pode fazer login.")
+            return redirect('login')
+        except Exception as e:
+            messages.error(request, f"Erro ao cadastrar usuário: {str(e)}")
             return redirect('registro')
 
-        # Criar o usuário
-        user = User.objects.create_user(username=username, email=email, password=password)
-        user.save()
+    return render(request, 'registro.html')
 
-        # Exibir mensagem de sucesso
-        messages.success(request, "Cadastro realizado com sucesso! Faça login.")
-        return redirect('login')
-
-    # Renderizar a página de registro
-    return render(request, '/registro.html')
-
-# Login de usuário
 def fazer_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
-
-        # Autenticar o usuário
         user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            # Fazer login
-            login(request, user)
+        if user:
+            auth_login(request, user)
+            next_url = request.POST.get('next', 'home')
             messages.success(request, "Login realizado com sucesso!")
-            return redirect('home')
+            return redirect(next_url)
         else:
-            # Exibir mensagem de erro
             messages.error(request, "Credenciais inválidas.")
-            return redirect('login')
 
-    # Renderizar a página de login
-    return render(request, 'login.html')
+    return render(request, 'login.html', {'next': request.GET.get('next', '')})
 
-# Logout de usuário
 def fazer_logout(request):
     auth_logout(request)
     request.session.flush()
