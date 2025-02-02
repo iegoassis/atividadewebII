@@ -4,28 +4,41 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Calculadora</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Calculadora - Realize cálculos simples</h1>
-    <p>Digite dois números e selecione uma operação para realizar o cálculo.</p>
-    <form action="/resultado/" method="post">
-        {% csrf_token %}
-        <label for="numero1">Número 1:</label>
-        <input type="number" name="numero1" step="any" required><br><br>
+    <header>
+        <h1>Calculadora - Realize cálculos simples</h1>
+    </header>
+    <nav>
+        <a href="/home/">Início</a> |
+        <a href="/autor/">Sobre o Autor</a> |
+        <a href="/login/">Login</a>
+    </nav>
+    <div class="container">
+        <p>Digite dois números e selecione uma operação para realizar o cálculo.</p>
+        <form action="/resultado/" method="post">
+            {% csrf_token %}
+            <label for="numero1">Número 1:</label>
+            <input type="number" name="numero1" step="any" required><br><br>
 
-        <label for="numero2">Número 2:</label>
-        <input type="number" name="numero2" step="any" required><br><br>
+            <label for="numero2">Número 2:</label>
+            <input type="number" name="numero2" step="any" required><br><br>
 
-        <label for="operacao">Operação:</label>
-        <select name="operacao" required>
-            <option value="soma">Soma</option>
-            <option value="subtracao">Subtração</option>
-            <option value="multiplicacao">Multiplicação</option>
-            <option value="divisao">Divisão</option>
-        </select><br><br>
+            <label for="operacao">Operação:</label>
+            <select name="operacao" required>
+                <option value="soma">Soma</option>
+                <option value="subtracao">Subtração</option>
+                <option value="multiplicacao">Multiplicação</option>
+                <option value="divisao">Divisão</option>
+            </select><br><br>
 
-        <button type="submit">Calcular</button>
-    </form>
-    <a href="/home/">Voltar</a>
+            <button type="submit">Calcular</button>
+        </form>
+        <a href="/home/">Voltar</a>
+    </div>
+    <footer>
+        <p>&copy; 2024 - Iego Assis</p>
+    </footer>
 </body>
 </html>

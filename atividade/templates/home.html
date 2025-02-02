@@ -3,21 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Atividade de web II</title>
+    <title>Atividade de Web II</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-    <body>
-     <h2>Bem-vindo, {{ nome_completo }}!</h2>
-      <p>Email cadastrado: {{ email }}<p>
-      <p>Tema preferido: {{ tema }}<p>
-     <p><a href="{% url 'logout' %}">Sair</a></p>
-    </body>
 <body>
-    <h1>Seja bem-vindo à Atividade</h1>
-    <p>Seja bem-vindo à página inicial da atividade de Desenvolvimento Web II.</p>
-    <button><a href="/login/">Login</a></button>
+    <header>
+        <h1>Seja bem-vindo à Atividade</h1>
+        <p>Seja bem-vindo à página inicial da atividade de Desenvolvimento Web II.</p>
+    </header>
     <nav>
+        <a href="/login/">Login</a> |
         <a href="/calcular/">Calculadora</a> |
         <a href="/autor/">Sobre o Autor</a>
     </nav>
+    <div class="container">
+        <h2>Bem-vindo, {{ nome_completo }}!</h2>
+        <p>Email cadastrado: {{ email }}</p>
+        <p>Tema preferido: {{ tema }}</p>
+        <p><a href="{% url 'logout' %}">Sair</a></p>
+    </div>
+    <footer>
+        <p>&copy; 2024 - Iego Assis</p>
+    </footer>
 </body>
 </html>
